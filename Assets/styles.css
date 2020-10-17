@@ -1,0 +1,12 @@
+h1 {
+  text-align: center;
+  color: orchid;
+}
+
+main #hiScores {
+  text-align: right;
+}
+
+main #time {
+  text-align: right;
+}
