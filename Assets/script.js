@@ -34,17 +34,17 @@
 // Define a bunch of variables
 var body = document.body;
 var card_body = document.querySelector("p");
+var button_body = document.querySelector("b");
 // variables for the welcome/start
 var start = document.querySelector("h5");
 
 // variables for the buttons
 var but0 = document.querySelector("a");
-var but1 = document.querySelector("b");
-var but2 = document.querySelector("b1");
-var but3 = document.querySelector("b2");
-
-// variables for the score keeper
-var scores = document.getElementById("hiScores");
+var quesShow = document.getElementById("question");
+var choice1 = document.getElementById("button-1");
+var choice2 = document.getElementById("button-2");
+var choice3 = document.getElementById("button-3");
+var score = document.getElementById("hiScores");
 
 // variables for the timer
 var timer = document.querySelector("time");
@@ -52,65 +52,108 @@ var timer = document.querySelector("time");
 // quiz questions
 // index 0 will always be the correct answer
 var questions = [{
-        ques:"Is Pluto a planet?",
-        answer:["No", "Yes", "You're silly, he's a dog"]
+        question:"Is Pluto a planet?",
+        choice1:"No",
+        choice2:"Yes",
+        choice3:"You're silly, he's a dog",
+        answer: "1"
     },{
-        ques:"What color are oranges?",
-     answer:["Orange","Blue","None of your business"]
+        question:"What color are oranges?",
+        choice1: "Blue",
+        choice2: "Orange",
+        choice3: "None of your business",
+        answer: "B"
     },{
-        ques: "How many doughnuts in a baker's dozen?",
-        answer: ["13", "9", "Eleventeen"],
+        question: "How many doughnuts in a baker's dozen?",
+        choice1: "Eleventeen",
+        choice2: "Nine",
+        choice3: "Thirteen",
+        answer: "3"
     },{
-        ques: "Can penguins fly?",
-        answer: ["No", "Yes","Only with enough frequent flyer miles"]
+        question: "Can penguins fly?",
+        choice1: "No",
+        choice2:"Yes",
+        choice3: "Only with enough frequent flyer miles",
+        answer: "1"
     }
 ]
 
 start.textContent = "Welcome Quiz fans! Click the button below to start the quiz. If you get a wrong answer, you will lose 10 seconds for each wrong answer. Good luck!";
+// but1.style.display = "none";
+var lastQuestion = questions.length -1;
+var runQuestion = 0;
+var count = 0;
+var score = 0
 
+function questionStart () {
+    var q = questions[runQuestion];
+    quesShow.textContent = q.question;
+    choice1.textContent = q.choice1;
+    choice2.textContent = q.choice2;
+    choice3.textContent = q.choice3;
+}
 // Big onclick function here?
 // add styling event to display to none after click event
 but0.addEventListener("click", quiz)
+choice1.style.display = "none";
+choice2.style.display = "none";
+choice3.style.display = "none";
 
 function quiz () {
     // hides the start button after clicking
     but0.style.display = "none";
     start.textContent = "";
-    // creates the three quiz answer buttons
 
-    var qlastIndex = questions.length -1;
-    var qcurrentIndex = 0;
+    questionStart ();
+    timer();
+    choice1.className="btn btn-danger mx-auto my-3 d-block";
+    choice2.className="btn btn-danger mx-auto my-3 d-block";
+    choice3.className="btn btn-danger mx-auto my-3 d-block";
+    
+    choice1.addEventListener("click", checkAnswer);
+    choice2.addEventListener("click", checkAnswer);
+    choice3.addEventListener("click", checkAnswer);
 
-    function quesDisplay () {
-        
-        var butArr = [but1, but2, but3]
-        var randomIndex = Math.floor(Math.random() * questions.length);
-        var randomButton = Math.floor(Math.random() * 3);
-        
-        console.log(randomButton);
-
-        // do {
-        // but1.appendChild(butArr[randomButton]);
-        // randomButton++
-        // }
-        // while (randomButton < 3);
-
-        // places a random question/answer object in each button
-        card_body.textContent = questions[randomIndex].ques;
-        for (var i = 0; i < 3; i++) {
-            butArr[i].textContent = questions[randomIndex].answer[i];
+    function checkAnswer(answer) {
+        if (answer === questions[runQuestion].correct) {
+            score++
+        } else {
+            secondsLeft = secondsLeft - 10;
         }
-        
-        but1.className="btn btn-danger mx-auto my-3 d-block";
-        but2.className="btn btn-danger mx-auto my-3 d-block";
-        but3.className="btn btn-danger mx-auto my-3 d-block";
-        
-        qcurrentIndex++
+        count = 0;
+        if(runQuestion < lastQuestion) {
+            runQuestion++;
+            questionStart();
+        } else {
+            clearInterval(timer);
+            scoreDisplay();
+        }
+    }    
+    function scoreDisplay () {
+        choice1.style.display = "none";
+        choice2.style.display = "none";
+        choice3.style.display = "none";
     }
 
-    qcurrentIndex = 0;
-    quesDisplay ();
-    
+    // TIMER ==================================================================================
+    var timeEl = document.querySelector("#time");
+    var secondsLeft = 60;
 
+    function timer() {
+        var timerInterval = setInterval(function() {
+        secondsLeft--;
+        timeEl.textContent = secondsLeft + " seconds left";
 
+        if (secondsLeft <= 0) {
+        clearInterval(timerInterval);
+        sendMessage();
+        }
+        
+        }, 1000);
+    }
+    function sendMessage() {
+        quesShow.textContent = "TIME'S UP!";
+    }
+    // TIMER ==================================================================================
 }
+console.log(score);
