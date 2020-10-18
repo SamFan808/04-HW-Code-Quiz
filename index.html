@@ -24,15 +24,15 @@
     <section class="container">
         <main class="card text-center">
             <main class="card-header">
-                <main id="hiScores">score</main>
+                <main id="score">score</main>
                 <main id="time">time remaining</main>
             </main>
             <main class="card-body">
                 <h5 class="card-title"></h5>
-                <p class="card-text" id="question"></p>
-                <button type="button" class="btn btn-danger" id="button-1"></button>
-                <button type="button" class="btn btn-danger" id="button-2"></button>
-                <button type="button" class="btn btn-danger" id="button-3"></button>
+                <h4 class="card-text" id="question"></h4>
+                <button type="button" class="btn btn-danger" id="button-1" onclick="checkAnswer('1')"></button>
+                <button type="button" class="btn btn-danger" id="button-2" onclick="checkAnswer('2')"></button>
+                <button type="button" class="btn btn-danger" id="button-3" onclick="checkAnswer('3')"></button>
                 <a class="btn btn-warning">Quiz Start!</a>
             </main>
         </main>

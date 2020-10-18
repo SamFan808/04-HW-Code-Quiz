@@ -1,89 +1,92 @@
-// pesudo code
-
-// Base html page 
-// View high scores link
-    // restart quiz button?
-
-// a START button with instructions
-//      gonna need a button
-//      event listener, listens for click, sets off the function
-//      Math.random question selector from an object/array with questions: and correct answers, and false answers, will need a for loop to cycle through the object/array
-            // QUIZ QUESTIONS - Each question has (3) answers, if (1) is correct, which adds to the score, else, time is subtracted from the total time
-                // (2) random functions 
-                    // 1. Random selection of quiz question
-                    // 2. Random selection of answer placement on page (3) positions
-                // Quiz questions randomly selected, then ramdom  selector decides what order to display the answers
-
-//      TIMER starts
-//          gonna need a timer that counts down from a set time (2:00 minutes? or 120+ seconds)
-
-//       A WILD QUESTION APPEARS!
-//          some div field gets txt content updated
-//          something is keeping score, counter thing, maybe keep the counter near the timer
-//          wrong answers, time is subtracted from the clock and continues to next question
-//          game ends when either timer runs out, or all the questions have been answered
-
-// GAME OVER - score, and save initials in a high score page
-        // Input field to record name and score that was stored in a variable      
-        // local storage for names and scores
-
-// HIGH SCORES - possibly a new page, otherwise it's a function that replaces the html on the page with a local storage list of high scores and user input names and scores
-    // Clear high scores link
-// onclick - starts quiz, starts the timer,
-
-// Define a bunch of variables
+// Homework 4 Code Quiz
+// Defining global variables
 var body = document.body;
-var card_body = document.querySelector("p");
-var button_body = document.querySelector("b");
-// variables for the welcome/start
 var start = document.querySelector("h5");
-
-// variables for the buttons
 var but0 = document.querySelector("a");
 var quesShow = document.getElementById("question");
 var choice1 = document.getElementById("button-1");
 var choice2 = document.getElementById("button-2");
 var choice3 = document.getElementById("button-3");
-var score = document.getElementById("hiScores");
-
-// variables for the timer
+var scores = document.getElementById("score");
 var timer = document.querySelector("time");
 
 // quiz questions
 // index 0 will always be the correct answer
 var questions = [{
-        question:"Is Pluto a planet?",
-        choice1:"No",
-        choice2:"Yes",
-        choice3:"You're silly, he's a dog",
-        answer: "1"
+        question:"Who is credited with creating the first production electric bass guitar",
+        choice1:"Leo Fender",
+        choice2:"Ned Steinberger",
+        choice3:"Orville Gibson",
+        correct: "1"
     },{
-        question:"What color are oranges?",
-        choice1: "Blue",
-        choice2: "Orange",
-        choice3: "None of your business",
-        answer: "B"
+        question:"How many strings does a standard bass guitar have?",
+        choice1: "Six",
+        choice2: "Four",
+        choice3: "Enough to get the job done",
+        correct: "2"
     },{
-        question: "How many doughnuts in a baker's dozen?",
-        choice1: "Eleventeen",
-        choice2: "Nine",
-        choice3: "Thirteen",
-        answer: "3"
+        question:"Which one of these people does not play bass as their main instrument?",
+        choice1: "Kip Winger",
+        choice2: "Les Claypool",
+        choice3: "Pete Townsend",
+        correct: "3"
     },{
-        question: "Can penguins fly?",
-        choice1: "No",
-        choice2:"Yes",
-        choice3: "Only with enough frequent flyer miles",
-        answer: "1"
-    }
+        question:"The sound that many associated with the birth of acid house music was made with which bass synthesizer?",
+        choice1: "Roland TB-303",
+        choice2: "Moog Minimoog",
+        choice3: "FutureRetro 777",
+        correct: "1"
+    },{
+        question:"What famous drum machine is most often associated with Hip-Hop?",
+        choice1: "Roland TR-909",
+        choice2: "Roland CR-78",
+        choice3: "Roland TR-808",
+        correct: "3"
+    },{
+        question:"How many dedicated oscillators does a Moog Minimoog have?",
+        choice1: "Three",
+        choice2: "Two",
+        choice3: "Six",
+        correct: "1"
+    },{
+        question:"The Yamaha DX-7 uses which type of synthesis to generate it's signature sound?",
+        choice1: "Subtractive Synthesis",
+        choice2: "Frequency Modulation",
+        choice3: "Granular Sampling",
+        correct: "2"
+    },{
+        question:"How many channels does a single MIDI cable support?",
+        choice1: "16",
+        choice2: "64",
+        choice3: "128",
+        correct: "1"
+    },{
+        question:"The first commercial synthesizer released by the company Elektron, the SidStation was based on a synthesis chip from which home computer brand?",
+        choice1: "IBM",
+        choice2: "Apple",
+        choice3: "Commodore",
+        correct: "3"
+    },{
+        question:"How many keys are on a full sized piano keyboard?",
+        choice1: "76",
+        choice2: "88",
+        choice3: "64",
+        correct: "2"
+    },{
+        question:"What effect is used to create the 'pumping' effect in French Style House music?",
+        choice1: "Side-chain compression",
+        choice2: "Stack overload",
+        choice3: "Analog delay",
+        correct: "1"
+    },
 ]
 
-start.textContent = "Welcome Quiz fans! Click the button below to start the quiz. If you get a wrong answer, you will lose 10 seconds for each wrong answer. Good luck!";
-// but1.style.display = "none";
 var lastQuestion = questions.length -1;
 var runQuestion = 0;
 var count = 0;
-var score = 0
+var score = 0;
+
+start.textContent = "Welcome Quiz fans! Click the button below to start the quiz. If you get a wrong answer, you will lose 10 seconds for each wrong answer. Good luck!";
 
 function questionStart () {
     var q = questions[runQuestion];
@@ -92,60 +95,35 @@ function questionStart () {
     choice2.textContent = q.choice2;
     choice3.textContent = q.choice3;
 }
-// Big onclick function here?
-// add styling event to display to none after click event
+// activates the start quiz button
 but0.addEventListener("click", quiz)
+// hides the answer buttons
 choice1.style.display = "none";
 choice2.style.display = "none";
 choice3.style.display = "none";
+// initiates  quiz
+
+var timeEl = document.querySelector("#time");
+var secondsLeft = 60;
 
 function quiz () {
-    // hides the start button after clicking
     but0.style.display = "none";
     start.textContent = "";
-
-    questionStart ();
-    timer();
     choice1.className="btn btn-danger mx-auto my-3 d-block";
     choice2.className="btn btn-danger mx-auto my-3 d-block";
     choice3.className="btn btn-danger mx-auto my-3 d-block";
-    
-    choice1.addEventListener("click", checkAnswer);
-    choice2.addEventListener("click", checkAnswer);
-    choice3.addEventListener("click", checkAnswer);
 
-    function checkAnswer(answer) {
-        if (answer === questions[runQuestion].correct) {
-            score++
-        } else {
-            secondsLeft = secondsLeft - 10;
-        }
-        count = 0;
-        if(runQuestion < lastQuestion) {
-            runQuestion++;
-            questionStart();
-        } else {
-            clearInterval(timer);
-            scoreDisplay();
-        }
-    }    
-    function scoreDisplay () {
-        choice1.style.display = "none";
-        choice2.style.display = "none";
-        choice3.style.display = "none";
-    }
-
-    // TIMER ==================================================================================
-    var timeEl = document.querySelector("#time");
-    var secondsLeft = 60;
-
-    function timer() {
+    questionStart ();
+    timer ();
+    // TIMER =================================================================================
+    function timer () {
         var timerInterval = setInterval(function() {
         secondsLeft--;
         timeEl.textContent = secondsLeft + " seconds left";
 
         if (secondsLeft <= 0) {
         clearInterval(timerInterval);
+        scoreDisplay();
         sendMessage();
         }
         
@@ -153,7 +131,35 @@ function quiz () {
     }
     function sendMessage() {
         quesShow.textContent = "TIME'S UP!";
-    }
-    // TIMER ==================================================================================
+        }
+// TIMER ==================================================================================
 }
-console.log(score);
+// Compares user choice with correct answer
+function checkAnswer(answer) {
+    if( answer == questions[runQuestion].correct) {
+        score++;
+        console.log("Hey!");
+        
+    } else {
+        secondsLeft = secondsLeft - 10;
+        console.log("Ho!");
+    }
+    count = 0;
+    if(runQuestion < lastQuestion) {
+        runQuestion++;
+        questionStart();
+        
+    } else {
+        secondsLeft <= 0;
+        clearInterval(timer);
+        scoreDisplay();
+        sendMessage();
+    }
+    scores.textContent = score + " points";
+}    
+function scoreDisplay () {
+    choice1.className="";
+    choice2.className="";
+    choice3.className="";
+    console.log("It worked?");
+}
