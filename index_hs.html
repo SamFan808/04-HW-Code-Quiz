@@ -17,12 +17,12 @@
 </head>
 
 <body>
-    <h1>Quiz Game!</h1>
+    <h1>A quiz about bass and synths!</h1>
     <section class="container">
         <main class="row">
             <main class="col-md">
-                <main class="card" style="width: 20rem;">
-                    <main class="card-header">
+                <main class="card text-white bg-info" style="width: 40rem;">
+                    <main class="card-header bg-dark">
                         <a href="index.html" id="hiScores">Return to Quiz</a>
                     </main>
                     <main class="card-body">
@@ -47,11 +47,11 @@
         listE1.textContent = "High Scores";
         listHead.textContent = "Ranking";
         card.appendChild(listHead);
-        li1.textContent = storedName + ":";
+        li1.textContent = storedName + "    - score:   ";
         score.textContent = hiStorage;
         listHead.appendChild(li1);
         li1.appendChild(score);
-        score.style.cssFloat = "right";
+
 
     </script>
 

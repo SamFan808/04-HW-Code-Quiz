@@ -1,6 +1,8 @@
 h1 {
+  font-size: 2.5em;
   text-align: center;
   color: orchid;
+  margin: 30px;
 }
 
 main .card {
@@ -17,5 +19,9 @@ main #time {
 
 #hiScores {
   text-align: left;
-  color: peru;
+  color: white;
+}
+
+#card-body {
+  background-color: powderblue;
 }
