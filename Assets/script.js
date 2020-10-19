@@ -108,7 +108,7 @@ choice3.style.display = "none";
 // initiates  quiz
 
 var timeEl = document.querySelector("#time");
-var secondsLeft = 60;
+var secondsLeft = 90;
 
 function quiz () {
     but0.style.display = "none";
