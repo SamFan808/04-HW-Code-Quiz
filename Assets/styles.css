@@ -3,10 +3,19 @@ h1 {
   color: orchid;
 }
 
+main .card {
+  margin: 0 auto;
+}
+
 main #score {
   text-align: right;
 }
 
 main #time {
   text-align: right;
+}
+
+#hiScores {
+  text-align: left;
+  color: peru;
 }

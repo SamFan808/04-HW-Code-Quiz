@@ -2,16 +2,17 @@
 // Defining global variables
 var body = document.body;
 var start = document.querySelector("h5");
-var but0 = document.querySelector("a");
+var but0 = document.getElementById("button-0");
 var quesShow = document.getElementById("question");
 var choice1 = document.getElementById("button-1");
 var choice2 = document.getElementById("button-2");
 var choice3 = document.getElementById("button-3");
 var scores = document.getElementById("score");
 var timer = document.querySelector("time");
+var nameField = document.querySelector("input");
+var confButton = document.getElementById("submit-button");
 
 // quiz questions
-// index 0 will always be the correct answer
 var questions = [{
         question:"Who is credited with creating the first production electric bass guitar",
         choice1:"Leo Fender",
@@ -85,9 +86,12 @@ var lastQuestion = questions.length -1;
 var runQuestion = 0;
 var count = 0;
 var score = 0;
-
+// sets the welcome page text
 start.textContent = "Welcome Quiz fans! Click the button below to start the quiz. If you get a wrong answer, you will lose 10 seconds for each wrong answer. Good luck!";
 
+nameField.style.display = "none";
+confButton.style.display = "none";
+// populates quiz items
 function questionStart () {
     var q = questions[runQuestion];
     quesShow.textContent = q.question;
@@ -123,15 +127,12 @@ function quiz () {
 
         if (secondsLeft <= 0) {
         clearInterval(timerInterval);
-        scoreDisplay();
-        sendMessage();
+        endQuiz();
         }
         
         }, 1000);
     }
-    function sendMessage() {
-        quesShow.textContent = "TIME'S UP!";
-        }
+
 // TIMER ==================================================================================
 }
 // Compares user choice with correct answer
@@ -150,16 +151,35 @@ function checkAnswer(answer) {
         questionStart();
         
     } else {
+        endQuiz();
         secondsLeft <= 0;
         clearInterval(timer);
-        scoreDisplay();
-        sendMessage();
     }
     scores.textContent = score + " points";
-}    
-function scoreDisplay () {
+}
+
+function endQuiz () {
     choice1.className="";
     choice2.className="";
     choice3.className="";
+    quesShow.textContent = "Game Over Man!";
+    nameEntry ();
     console.log("It worked?");
 }
+
+function nameEntry () {
+    nameField.style.display = "block";
+    confButton.style.display = "block";
+    confButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        var name = document.querySelector("#nameEntry").value;
+        var scoreS = JSON.stringify(score);
+        localStorage.setItem("name",name);
+        localStorage.setItem("score",scoreS);
+        document.getElementById("hiScores").click();
+        console.log(scoreS);
+    })
+}
+
+
+
